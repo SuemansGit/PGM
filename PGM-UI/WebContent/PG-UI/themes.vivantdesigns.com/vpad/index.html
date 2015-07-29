@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+
+
+
+<head>
+
+<!-- iPad Settings -->
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" /> 
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0" />
+<!-- Adding "maximum-scale=1" fixes the Mobile Safari auto-zoom bug: http://filamentgroup.com/examples/iosScaleBug/ -->
+<!-- iPad Settings End -->
+
+<title>PGM</title>
+
+<link rel="shortcut icon" href="favicon.ico">
+
+<!-- iOS ICONS -->
+<link rel="apple-touch-icon" href="touch-icon-iphone.png" />
+<link rel="apple-touch-icon" sizes="72x72" href="touch-icon-ipad.png" />
+<link rel="apple-touch-icon" sizes="114x114" href="touch-icon-iphone4.png" />
+<link rel="apple-touch-startup-image" href="touch-startup-image.png">
+<!-- iOS ICONS END -->
+
+<!-- STYLESHEETS -->
+
+<link rel="stylesheet" href="css/reset.css" media="screen" />
+<link rel="stylesheet" href="css/grids.css" media="screen" />
+<link rel="stylesheet" href="css/ui.css" media="screen" />
+<link rel="stylesheet" href="css/forms.css" media="screen" />
+<link rel="stylesheet" href="css/device/general.css" media="screen" />
+<!--[if !IE]><!-->
+<link rel="stylesheet" href="css/device/tablet.css" media="only screen and (min-width: 768px) and (max-width: 991px)" />
+<link rel="stylesheet" href="css/device/mobile.css" media="only screen and (max-width: 767px)" />
+<link rel="stylesheet" href="css/device/wide-mobile.css" media="only screen and (min-width: 480px) and (max-width: 767px)" />
+<!--<![endif]-->
+<link rel="stylesheet" href="css/jquery.uniform.css" media="screen" />
+<link rel="stylesheet" href="css/jquery.popover.css" media="screen">
+<link rel="stylesheet" href="css/jquery.itextsuggest.css" media="screen">
+<link rel="stylesheet" href="css/themes/lightblue/style.css" media="screen" />
+<link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css" />
+
+
+<style type = "text/css">
+    #loading-container {position: absolute; top:50%; left:50%;}
+    #loading-content {width:800px; text-align:center; margin-left: -400px; height:50px; margin-top:-25px; line-height: 50px;}
+    #loading-content {font-family: "Helvetica", "Arial", sans-serif; font-size: 18px; color: black; text-shadow: 0px 1px 0px white; }
+    #loading-graphic {margin-right: 0.2em; margin-bottom:-2px;}
+    #loading {background-color:#abc4ff; background-image: -moz-radial-gradient(50% 50%, ellipse closest-side, #abc4ff, #87a7ff 100%); background-image: -webkit-radial-gradient(50% 50%, ellipse closest-side, #abc4ff, #87a7ff 100%); background-image: -o-radial-gradient(50% 50%, ellipse closest-side, #abc4ff, #87a7ff 100%); background-image: -ms-radial-gradient(50% 50%, ellipse closest-side, #abc4ff, #87a7ff 100%); background-image: radial-gradient(50% 50%, ellipse closest-side, #abc4ff, #87a7ff 100%); height:100%; width:100%; overflow:hidden; position: absolute; left: 0; top: 0; z-index: 99999;}
+</style>
+
+<!-- STYLESHEETS END -->
+
+</head>
+<body style="overflow: hidden;">
+    <div id="loading"> 
+
+        <script type = "text/javascript"> 
+            document.write("<div id='loading-container'><p id='loading-content'>" +
+                           "<img id='loading-graphic' width='16' height='16' src='images/ajax-loader-abc4ff.gif' /> " +
+                           "Loading...</p></div>");
+        </script> 
+
+    </div> 
+
+    <div id="wrapper">
+        <header>
+            <h1><a href="#">vPad</a></h1>
+            <nav>
+                <div class="container_12">
+                    <div class="grid_12">
+                        <ul class="toolbar clearfix fl">
+                            <li>
+                                <a href="#" title="Activity" class="icon-only" id="activity-button">
+                                    <img src="images/navicons-small/77.png" alt=""/>
+                                    <span class="message-count">1</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" title="Notifications" class="icon-only" id="notifications-button">
+                                    <img src="images/navicons-small/08.png" alt=""/>
+                                    <span class="message-count">3</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" title="Settings" class="icon-only" id="settings-button">
+                                    <img src="images/navicons-small/19.png" alt=""/>
+                                </a>
+                            </li>
+                        </ul>
+                        <a href="login.html" title="Logout" class="button icon-with-text fr"><img src="images/navicons-small/129.png" alt=""/>Logout</a>
+                        <div class="user-info fr">
+                            Logged in as <a href="#">Administrator</a>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </header>
+        
+        <section>
+            <!-- Sidebar -->
+
+            <aside>
+                <nav class="drilldownMenu">
+                    <h1>
+                        <span class="title">Main Menu</span>
+                        <button title="Go Back" class="back">Back</button>
+                    </h1>
+                    <div class="clearfix" id="searchform">
+                        <div class="searchcontainer">
+                            <div class="searchbox" onclick="$(this).find('input').focus();">
+                                <input type="text" name="q" id="q" autocomplete="off" placeholder="Search...">
+                            </div>
+                            <input type="button" value="Cancel" />
+                        </div>
+                        <div class="search_results"></div>
+                    </div>                        
+                    <ul class="tlm">
+                        <li class="hasul"><a href="#"><img src="images/navicons/111.png" alt=""/><span>Administrator</span></a>
+                            <ul>
+                            	<li><a href="#" id="createPG" title="Users"><img src="images/navicons/111.png" alt=""/><span>Create PG</span></a></li>
+                                <li><a href="#" class="createOccupant" title="Groups"><img src="images/navicons/112.png" alt=""/><span>Create Occupant</span></a></li>
+                                <li><a href="#" title="Settings"><img src="images/navicons/106.png" alt=""/><span>Settings</span></a></li>
+                                <li><a href="login.html" title="Logout"><img src="images/navicons/129.png" alt=""/><span>Logout</span></a></li>
+                            </ul>
+                        </li>
+                        <li class="hasul"><a href="#dashboard.html" title="Occupants"><img src="images/navicons/81.png" alt=""/><span>Occupants</span></a>
+						    <ul>
+                            	<li><a href="#" class="createOccupant" title="Users"><img src="images/navicons/111.png" alt=""/><span>Create Occupant</span></a></li>
+                                <li><a href="#" class="view" id="viewOccupants" title="viewOccupants"><img src="images/navicons/112.png" alt=""/><span>View Occupants</span></a></li>
+                                <li><a href="#" title="Settings"><img src="images/navicons/106.png" alt=""/><span>Settings</span></a></li>
+                                <li><a href="login.html" title="Logout"><img src="images/navicons/129.png" alt=""/><span>Logout</span></a></li>
+                            </ul>
+						</li>
+                        <li class="hasul"><a href="#contacts.html" title="Contacts"><img src="images/navicons/123.png" alt=""/><span>Rooms</span></a>
+						<ul>
+                            	<li><a href="#" id="createRoom" title="Users"><img src="images/navicons/111.png" alt=""/><span>Create Room</span></a></li>
+                                <li><a href="#" class="view" id="viewRooms" title="viewRoom"><img src="images/navicons/112.png" alt=""/><span>View Rooms</span></a></li>
+                                <li><a href="#" class="view" id="deleteRooms" title="deleteRooms"><img src="images/navicons/106.png" alt=""/><span>Delete Rooms</span></a></li>
+                                <li><a href="login.html" title="Logout"><img src="images/navicons/129.png" alt=""/><span>Logout</span></a></li>
+                            </ul>
+						</li>
+                        <li class="hasul"><a href="#media.html" title="Media"><img src="images/navicons/42.png" alt=""/><span>Beds</span></a>
+						<ul>
+                            	<li><a href="#" id="createBed" title="Users"><img src="images/navicons/111.png" alt=""/><span>Create Bed</span></a></li>
+                                <li><a href="#" class="view" id="viewBeds" title="viewBeds"><img src="images/navicons/112.png" alt=""/><span>View Beds</span></a></li>
+                                <li><a href="#" title="Settings"><img src="images/navicons/106.png" alt=""/><span>Settings</span></a></li>
+                                <li><a href="login.html" title="Logout"><img src="images/navicons/129.png" alt=""/><span>Logout</span></a></li>
+                            </ul>
+						</li>
+                        <li class="hasul"><a href="#" title="Forms"><img src="images/navicons/139.png" alt=""/><span>BalanceSheet</span></a>
+                            <ul>
+                                <li><a href="#" class="view" id="viewBalanceSheet" title="Balance Sheet"><span>View Balance Sheet</span></a></li>
+                                <li><a href="#forms2.html" title="Custom Form Elements"><span>Custom</span></a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#wizard.html" title="Wizard"><img src="images/navicons/165.png" alt=""/><span>Wizard</span></a></li>
+                        <li><a href="#tables.html" title="Tables"><img src="images/navicons/29.png" alt=""/><span>Tables</span></a></li>
+                        <li class="hasul"><a href="#"><img src="images/navicons/20.png" alt=""/><span>Widgets</span></a>
+                            <ul>
+                                <li><a href="#calendar.html" title="Calendar"><img src="images/navicons/83.png" alt=""/><span>Calendar</span></a></li>
+                                <li><a href="#wysiwyg.html" title="WYSIWYG Editor"><img src="images/navicons/26.png" alt=""/><span>WYSIWYG Editor</span></a></li>
+                            </ul>
+                        </li>
+                        <li class="hasul"><a href="#"><img src="images/navicons/96.png" alt=""/><span>Documentation</span></a>
+                            <ul>
+                                <li><a href="#doc-intro.html" title="Documentation"><span>Introduction</span></a></li>
+                                <li><a href="#doc-forms.html" title="Documentation"><span>Forms</span></a></li>
+                                <li><a href="#doc-media.html" title="Documentation"><span>Media</span></a></li>
+                                <li><a href="#doc-notifications.html"><span>Notifications</span></a></li>
+                                <li class="hasul"><a href="#"><span>Widgets</span></a>
+                                    <ul>
+                                        <li><a href="#doc-calendar.html" title="Documentation"><span>Calendar</span></a></li>
+                                        <li><a href="#doc-wysiwyg.html" title="Documentation"><span>WYSIWYG</span></a></li>
+                                        <li><a href="#doc-graph.html" title="Documentation"><span>Graph</span></a></li>
+                                        <li><a href="#doc-popover.html" title="Documentation"><span>Pop Over</span></a></li>
+                                        <li><a href="#doc-style.html" title="Documentation"><span>Style</span></a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="#doc-wizard.html"><span>Wizard</span></a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </nav>
+            </aside>
+
+            <!-- Sidebar End -->
+<link href="css/docs.css" media="screen" rel="stylesheet">
+
+<script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js'></script>
+<script type="text/javascript">
+$(document).ready(function() {
+	$("#createPgSubmit").submit(function(){    	
+		event.preventDefault();
+		alert("pg")
+	  // Get some values from elements on the page:
+	    var $form = $( this ),
+	    pgname = $form.find( "input[name='pgName']" ).val();
+	    pgaddress = $form.find( "input[name='pgAddress']" ).val();
+	    pgcategory = $form.find( "input[name='pgCategory']" ).val();
+	    
+	    url = $form.attr( "action" );
+		$.get(url,
+			{
+    		name: pgname ,
+        	address: pgaddress,
+        	category: pgcategory
+    	    },
+    	    function(data,status,xhr){
+    	    	$(".forms").hide();
+    			$(".main-content-view").hide();
+    			$("#mydashboard").show();
+    		    $("#success-msg").replaceWith("<h4>Pg created successfully</h4></br><h4>WELCOME TO PGM!</h4>");
+    			
+		});   	
+    	
+    });
+	
+	
+	$("#CreateBedSubmit").submit(function(event) {
+		
+		event.preventDefault();
+		alert("bed");
+	  // Get some values from elements on the page:
+	  var $form = $( this );
+	    PgId = $form.find( "input[name='pgId']" ).val();
+	    RoomId = $form.find( "input[name='roomId']" ).val();
+	    DateCreated = $form.find( "input[name='dateCreated']" ).val();
+	    DateDeleted = $form.find( "input[name='dateDeleted']" ).val();
+	    url = $form.attr( "action" );
+		$.get(url,
+				{
+			      roomId: RoomId,
+		          dateCreated: DateCreated,
+		          dateDeleted: DateDeleted,
+		          pgId: PgId
+	    	    },
+	    	    function(data,status,xhr){
+	    	    	$(".forms").hide();
+	    			$(".main-content-view").hide();
+	    			$("#mydashboard").show();
+	    		    $("#success-msg").replaceWith("<h4>Bed created successfully</h4></br><h4>WELCOME TO PGM!</h4>");
+	    			
+			});
+	});
+	
+$("#CreateRoomSubmit").submit(function(event) {
+		
+		event.preventDefault();
+		alert("room")
+	  // Get some values from elements on the page:
+	    var $form = $( this ),
+	    PgId = $form.find( "input[name='roomPgId']" ).val();
+	    name = $form.find( "input[name='roomName']" ).val();
+	    
+	    url = $form.attr( "action" );
+		$.get(url,
+				{
+			      roomName: name,
+		          roomPgId: PgId,
+		          
+	    	    },
+	    	    function(data,status,xhr){
+	    	    	$(".forms").hide();
+	    			$(".main-content-view").hide();
+	    			$("#mydashboard").show();
+	    		    $("#success-msg").replaceWith("<h4>Room created successfully</h4></br><h4>WELCOME TO PGM!</h4>");
+	    			
+				    
+				
+			});
+	});
+	
+$("#CreateOccupantSubmit").submit(function(event) {
+	
+	event.preventDefault();
+	alert("occupant");
+  // Get some values from elements on the page:
+    var $form = $( this );
+    bedid = $form.find( "select[name='occupantBedId']" ).val();
+    pgid = $form.find( "input[name='occupantPgId']" ).val();
+    name = $form.find( "input[name='occupantName']" ).val();
+    mobile = $form.find( "input[name='occupantMobile']" ).val();
+    email =$form.find("input[name='occupantEmail']").val();
+    company = $form.find( "input[name='occupantCompany']" ).val();
+    college = $form.find( "input[name='occupantCollege']" ).val();
+    idcard = $form.find( "input[name='occupantIdCard']" ).val();
+    idno = $form.find( "input[name='occupantIdNo']" ).val();
+    address = $form.find( "input[name='occupantAddress']" ).val();
+    city = $form.find( "input[name='occupantCity']" ).val();
+    alert(bedid);
+    url = $form.attr( "action" );
+    
+    $.get(url,
+			{
+		      occupantBedId:bedid,
+		      occupantPgId:pgid,
+		      occupantName:name,
+		      occupantMobile:mobile,
+		      occupantEmail:email,
+		      occupantCompany:company,
+		      occupantCollege:college,
+		      occupantIdCard:idcard,
+		      occupantIdNo:idno,
+		      occupantAddress:address,
+		      occupantImage:"img",
+		      occupantCity:city
+    	    },
+    	    function(data,status,xhr){
+    	    $(".forms").hide();
+			$(".main-content-view").hide();
+			$("#mydashboard").show();
+		    $("#success-msg").replaceWith("<h4>Occupant created successfully</h4></br><h4>WELCOME TO PGM!</h4>");
+			
+		});
+});
+
+
+  /* $("#selectVacantBed").click(function(){
+	   alert("clicked");
+	   $.getJSON("../../../rest/bed/getVacantBed", function(data){
+   	    //var o = $.parseJSON(data);
+		   $.each(data, function(k, arr){
+  	       // $('#me tbody').append('<tr><td>' + arr.accountId + '</td><td>' + arr.description + '</td><td>' + arr.balance + '</td><td>' + arr.accountGroup + '</td></tr>');
+  	       $('#selectVacantBed').append('<option value="'+arr.bedId+'"></option>');
+  	    });
+   	});
+   });*/
+	  	
+    $("#createPG").click(function() {
+	    $("#mydashboard").hide();
+		$(".forms").hide();		
+		$("#formHeader").show();     
+        $("header").show();	
+        $("#pgForm").show();
+		$("#pgMainContent").show();	
+		
+    });
+	
+	$("#createRoom").click(function() {
+	    $("#mydashboard").hide();
+		$(".forms").hide();		
+		$("#formHeader").show();     
+        $("header").show();	
+        $("#RoomForm").show();
+		$("#RoomMainContent").show();	
+		
+    });
+	
+	$("#createBed").click(function() {
+		alert("yes");
+	    $("#mydashboard").hide();
+		$(".forms").hide();	
+		$("header").show();     
+		$("#formHeader").show(); 
+        $("#BedForm").show();
+		$("#BedMainContent").show();
+      					
+    });
+	
+	$(".createOccupant").click(function() {
+	    $("#mydashboard").hide();
+		$(".forms").hide();	
+		$("header").show();     
+		$("#formHeader").show(); 
+        $("#OccupantForm").show();		
+		$("#occupantMainContent").show();
+		$.getJSON("../../../rest/bed/getVacantBed", function(data){
+	   	    //var o = $.parseJSON(data);
+	   	       $('#selectVacantBed').html('<option value="0">--Select--</option>');
+			   $.each(data, function(k, arr){	  	       
+	  	       $('#selectVacantBed').append('<option value="'+arr.bedId+'">'+arr.bedId+'</option>');
+	  	    });
+	   	});
+					
+    });
+    
+    $(".view").click(function(){
+        $(".forms").hide();	
+		$(".form-header").hide();
+		$('.main-content-view').hide();
+		$("#mydashboard").show();
+		$(".dashboard-header").show();
+		//$("footer").show();
+    });
+	
+	$("#viewRooms").click(function(){
+		alert("view rooms");
+		
+		$.getJSON("../../../rest/room/get/pgId", function(data){
+	   	    //var o = $.parseJSON(data);
+	   	      $('#view-tables').html("");
+	   	      $('#view-tables').html('<table id="resultTable" class="table table-hover"></table>');
+	   	       
+	   	       $('#view-tables').show();	   	       
+	   	       
+	   	       $.each(data, function(k, arr){					  
+	  	       $('#resultTable').append('<tr class="each-room"><td><img src="../images/door2.jpg" alt="Room img" style="width:128px;height:128px"></td>'+	  	       
+	  	       '<td><ul><li>Room id: '+arr.roomId+'</li><li>Room name:'+arr.name+'</li></ul></td><td><ul><li>Pg Id: '+arr.pgId+'</li><li>Date Created: >'+arr.dateCreated+'</li></ul></td></tr>');
+	  	    });
+	   	});
+	});
+	
+	$("#viewBalanceSheet").click(function(){
+		alert("view balance");
+		//$('#view-balance-sheet').show();
+		$.getJSON("../../../rest/account/getAccounts", {
+	          pgId : 1 
+		 },function(data){
+	   	    //var o = $.parseJSON(data);
+	   	      $('#view-tables').html("");
+	   	      $('#view-tables').html('<table id="resultTable" class="table table-hover"></table>');
+	   	       
+	   	       $('#view-tables').show();	   	       
+	   	       
+	   	       $.each(data, function(k, arr){					  
+	  	       $('#resultTable').append('<tr class="each-account">'+	  	       
+	  	       '<td><ul><li>Account id: '+arr.accountId+'</li><li>Occupant id:'+arr.occupantId+'</li></ul></td><td><ul><li>Pg Id: '+arr.pgId+'</li><li>From date: >'+arr.fromDate+'</li></ul></td><td><ul><li>To Date: '+arr.toDate+'</li><li>Payment: '+arr.payment+'</li></ul></td><td><ul><li>Dues :'+arr.dues+'</li></ul></td></tr>');
+	  	    });
+	   	});
+		
+		
+	});
+	
+	$("#viewBeds").click(function(){
+		alert("view beds");
+		
+		$.getJSON("../../../rest/bed/get", function(data){
+	   	    //var o = $.parseJSON(data);
+	   	      $('#view-tables').html("");
+	   	      $('#view-tables').html('<table id="resultTable" class="table table-hover"></table>');
+	   	       
+	   	       $('#view-tables').show();	   	       
+	   	       
+	   	       $.each(data, function(k, arr){					  
+	  	       $('#resultTable').append('<tr class="each-bed"><td><img src="../images/bed2.jpg" alt="bed img" style="width:128px;height:128px"></td>'+	  	       
+	  	       '<td><ul><li>Bed id: '+arr.bedId+'</li><li>Room id:'+arr.roomId+'</li></ul></td><td><ul><li>Pg Id: '+arr.pgId+'</li><li>Date Created: >'+arr.dateCreated+'</li></ul></td><td><ul><li>Occupant id: '+arr.occupantId+'</li></ul></td></tr>');
+	  	    });
+	   	});
+	});
+	
+	$("#viewOccupants").click(function(){
+		alert("view occupant");
+		
+		$.getJSON("../../../rest/occupant/get/pgId", function(data){
+	   	    //var o = $.parseJSON(data);
+	   	      $('#view-tables').html("");
+	   	      $('#view-tables').html('<table id="resultTable" class="table table-hover"></table>');
+	   	       
+	   	       $('#view-tables').show();	   	       
+	   	       
+	   	       $.each(data, function(k, arr){					  
+	  	       $('#resultTable').append('<tr class="each-occupant">'+	  	       
+	  	       '<td><ul><li>Occupant id: '+arr.occupantId+'</li><li>Name:'+arr.name+'</li></ul></td><td><ul><li>Pg Id: '+arr.pgId+'</li><li>Mobile: >'+arr.mobile+'</li></ul></td>'+
+	  	       '<td><ul><li>Bed id: '+arr.bedId+'</li><li>Email: '+arr.email+'</li></ul></td><td><ul><li>Address: '+arr.address+'</li><li>City: '+arr.city+'</li></ul></td></tr>');
+	  	    });
+	   	});
+	});
+	
+	$("#deleteRooms").click(function(){
+      alert("delete rooms");
+		
+		$.getJSON("../../../rest/room/get/pgId", function(data){
+	   	    //var o = $.parseJSON(data);
+	   	      $('#view-tables').html("");
+	   	      $('#view-tables').html('<table id="resultTable" class="table table-hover"></table>');
+	   	       
+	   	       $('#view-tables').show();	   	       
+	   	       
+	   	       $.each(data, function(k, arr){					  
+	  	       $('#resultTable').append('<tr class="each-room"><td><img src="../images/door2.jpg" alt="Room img" style="width:128px;height:128px"></td>'+	  	       
+	  	       '<td><ul><li>Room id: '+arr.roomId+'</li><li>Room name:'+arr.name+'</li></ul></td><td><ul><li>Pg Id: '+arr.pgId+'</li><li>Date Created: >'+arr.dateCreated+'</li></ul></td></tr><tr><td>'+
+	  	       '<button class="room-delete" type="button" id='+arr.roomId +'>Delete</button></td></tr>');
+	  	    });
+	   	});
+	});
+	
+	 $('.room-delete').live('click',function(){
+		 
+		 var id = $(this).attr('id');
+		
+		$.get("../../../rest/room/delete/roomId", 
+				 {
+		          roomId : id 
+				 },
+			 function(data){
+				 alert(data);
+				 
+			 });   
+		   	
+		 
+	 }); 
+	
+	
+});
+  </script>
+
+ <section   style="display:none;">
+ <header id="formHeader" class="forms form-header" style="display:none;">
+<div class="container_12 clearfix form-header" >
+<a class="showmenu button" href="#menu">Menu</a>
+<h1 class="grid_12">Form</h1>
+</div>
+</header>
+
+<section class="forms" id="pgForm" style="display:none;">
+<section id="pgMainContent" class="clearfix" style="display:none;">
+<div id="views-occupant-form.html" style="left: 0px; position: relative;" style="display:none;">
+<link href="css/docs.css" media="screen" rel="stylesheet">
+<form class="form has-validation" id="createPgSubmit" action="../../../rest/pg/set">
+form pg
+    <div class="clearfix">
+        <label for="pgName" class="form-label">Name <em>*</em></label>
+        <div class="form-input">
+            <input type="text" id="pgName" name="pgName" required="required" placeholder="Enter PG Name" />
+			
+        </div>
+    </div>
+	<div class="clearfix">
+        <label for="pgAddress" class="form-label">Address <em>*</em></label>
+        <div class="form-input">
+            <input type="text" id="pgAddress" name="pgAddress" required="required" placeholder="Enter PG Address" />
+			
+        </div>
+    </div>
+	<div class="clearfix">
+        <label for="pgCategory" class="form-label">Category <em>*</em></label>
+        <div class="form-input">
+            <input type="text" id="pgCategory" name="pgCategory" required="required" placeholder="Enter PG Category" />
+			
+        </div>
+    </div>
+    <div class="form-action clearfix">
+        <button class="button"  type="submit">Submit</button>
+        <button class="button" type="reset">Reset</button>
+    </div>
+</form>
+</link>
+<h1 class="page-title">Forms</h1>
+</div>
+</section>
+</section>
+
+<section class="forms" id="BedForm" style="display:none;">
+<section id="BedMainContent" class="clearfix" style="display:none;">
+<div  style="left: 0px; position: relative;" style="display:none;">
+<link href="css/docs.css" media="screen" rel="stylesheet">
+<form class="form has-validation" id="CreateBedSubmit" action="../../../rest/bed/set">
+form bed
+    <div class="clearfix">
+        <label for="pgId" class="form-label">PG Id <em>*</em></label>
+        <div class="form-input">
+            <input type="text" id="BedPgId" name="pgId" required="required" placeholder="Enter PG Id" />
+			
+        </div>
+    </div>
+	<div class="clearfix">
+        <label for="roomId" class="form-label">Room Id<em>*</em></label>
+        <div class="form-input">
+            <input type="text" id="BedRoomId" name="roomId" required="required" placeholder="Enter Room Id" />
+			
+        </div>
+    </div>
+	<div class="clearfix">
+        <label for="dateCreated" class="form-label">Date Created <em>*</em></label>
+        <div class="form-input">
+            <input type="text" id="BedDateCreated" name="dateCreated" required="required" placeholder="Enter Occupant Id" />
+			
+        </div>
+    </div>
+    <div class="clearfix">
+        <label for="dateDeleted" class="form-label">Date Deleted <em>*</em></label>
+        <div class="form-input">
+            <input type="text" id="BedDateDeleted" name="dateDeleted" required="required" placeholder="Enter Occupant Id" />
+			
+        </div>
+    </div>
+    <div class="form-action clearfix">
+        <button class="button"  type="submit">Submit</button>
+        <button class="button" type="reset">Reset</button>
+    </div>
+</form>
+</link>
+<h1 class="page-title">Forms</h1>
+</div>
+</section>
+</section>
+
+<section class="forms" id="RoomForm" style="display:none;">
+<section id="RoomMainContent" class="clearfix" style="display:none;">
+<div  style="left: 0px; position: relative;" style="display:none;">
+<link href="css/docs.css" media="screen" rel="stylesheet">
+<form class="form has-validation" id="CreateRoomSubmit" action="../../../rest/room/set">
+form room	
+	<div class="clearfix">
+        <label for="roomName" class="form-label">Name <em>*</em></label>
+        <div class="form-input">
+            <input type="text" id="RoomName" name="roomName" required="required" placeholder="Enter Room Name" />
+			
+        </div>
+    </div>
+	<div class="clearfix">
+        <label for="roomPgId" class="form-label">PG Id <em>*</em></label>
+        <div class="form-input">
+            <input type="text" id="RoomPgId" name="roomPgId" required="required" placeholder="Enter PG Id" />
+			
+        </div>
+    </div>
+    <div class="form-action clearfix">
+        <button class="button" type="submit">Submit</button>
+        <button class="button" type="reset">Reset</button>
+    </div>
+</form>
+</link>
+<h1 class="page-title">Forms</h1>
+</div>
+</section>
+</section>
+
+
+<section class="forms" id="OccupantForm" style="display:none;">
+<section id="occupantMainContent" class="clearfix" style="display:none;">
+<div id="create-occupant-form.html" style="left: 0px; position: relative;">
+<link href="css/docs.css" media="screen" rel="stylesheet">
+<form class="form has-validation" id="CreateOccupantSubmit" action="../../../rest/occupant/set">
+occupant form
+    <div class="clearfix">
+        <label for="occupantName" class="form-label">Name <em>*</em></label>
+        <div class="form-input">
+            <input type="text" id="occupantName" name="occupantName" required="required" placeholder="Enter Name" />
+			
+        </div>
+    </div>
+    <div class="clearfix">
+        <label for="occupantEmail" class="form-label">Email <em>*</em></label>
+        <div class="form-input">
+            <input type="text" id="occupantEmail" name="occupantEmail" required="required" placeholder="Enter Email" />
+			
+        </div>
+    </div>
+	<div class="clearfix">
+        <label for="occupantAddress" class="form-label">Address <em>*</em></label>
+        <div class="form-input">
+            <input type="text" id="occupantAddress" name="occupantAddress" required="required" placeholder="Enter  Address" />
+			
+        </div>
+    </div>
+    <div class="clearfix">
+        <label for="occupantCity" class="form-label">City<em>*</em></label>
+        <div class="form-input">
+            <input type="text" id="occupantCity" name="occupantCity" required="required" placeholder="Enter  Address" />
+			
+        </div>
+    </div>
+	
+	<div class="clearfix">
+        <label for="occupantMobile" class="form-label">Phone No <em>*</em></label>
+        <div class="form-input">
+            <input type="text" id="occupantMobile" name="occupantMobile" required="required" placeholder="Enter phone no" />
+			
+        </div>
+    </div>
+	<div class="clearfix">
+        <label for="occupantPgId" class="form-label">PG Id <em>*</em></label>
+        <div class="form-input">
+            <input type="text" id="occupantPgId" name="occupantPgId" required="required" placeholder="Enter PG Id" />
+			
+        </div>
+    </div>
+    <div class="clearfix">
+        <label for="occupantBedId" class="form-label">Bed Id <em>*</em></label>
+        <div class="form-input">
+        <select name="occupantBedId" id="selectVacantBed">
+         <option value="0">--Select--</option>
+         
+        </select>			
+        </div>
+    </div>
+    <div class="clearfix">
+        <label for="occupantCompany" class="form-label">Company<em>*</em></label>
+        <div class="form-input">
+            <input type="text" id="occupantCompany" name="occupantCompany" required="required" placeholder="Enter PG Id" />
+			
+        </div>
+    </div>
+    <div class="clearfix">
+        <label for="occupantCollege" class="form-label">College<em>*</em></label>
+        <div class="form-input">
+            <input type="text" id="occupantCollege" name="occupantCollege" required="required" placeholder="Enter PG Id" />
+			
+        </div>
+    </div>
+    <div class="clearfix">
+        <label for="occupantIdCard" class="form-label">Id Card<em>*</em></label>
+        <div class="form-input">
+            <input type="text" id="occupantIdCard" name="occupantIdCard" required="required" placeholder="Enter PG Id" />
+			
+        </div>
+    </div>
+    <div class="clearfix">
+        <label for="occupantIdNo" class="form-label">Id No<em>*</em></label>
+        <div class="form-input">
+            <input type="text" id="occupantIdNo" name="occupantIdNo" required="required" placeholder="Enter PG Id" />
+			
+        </div>
+    </div>
+    <div class="form-action clearfix">
+        <button class="button" type="submit">Submit</button>
+        <button class="button" type="reset">Reset</button>
+    </div>
+</form>
+</link>
+<h1 class="page-title">Forms</h1>
+</div>
+</section>
+</section>
+
+
+</section>
+ 
+ 
+
+
+            <section id="mydashboard">
+                <header class="dashboard-header">
+                    <div class="container_12 clearfix dashboard-header">
+                        <a href="#menu" class="showmenu button">Menu</a>
+                        <h1 class="grid_12">Dashboard</h1>
+                    </div>
+                </header>
+                <section id="main-content" class="clearfix" style="overflow:scroll;">
+                <div class="main-content-view" id="success-msg" style="display:none;"></div>				
+				<div class="main-content-view" id="view-balance-sheet" style="display:none;">Balance sheet</div>
+				<div class="main-content-view" id="view-tables" style="display:none;"><table id="resultTable" class="table table-hover"></table></div>
+                </section>
+                <footer class="clearfix">
+                    <div class="container_12">
+                        <div class="grid_12">
+                            Copyright &copy; 2011. Theme by <a target="_blank" href="http://themeforest.net/user/vivantdesigns?ref=vivantdesigns">VivantDesigns</a>
+                        </div>
+                    </div>
+                </footer>
+            </section>
+
+            <!-- Main Section End -->
+        </section>
+    </div>
+    
+    <!-- MAIN JAVASCRIPTS -->
+    <script src="../../code.jquery.com/jquery-1.7.min.js"></script>
+    <script>window.jQuery || document.write("<script src='js/jquery.min.js'>\x3C/script>")</script>
+    <script type="text/javascript" src="js/jquery.tools.min.js"></script>
+    <script type="text/javascript" src="js/jquery.uniform.min.js"></script>
+    <script type="text/javascript" src="js/jquery.easing.js"></script>
+    <script type="text/javascript" src="js/jquery.ui.totop.js"></script>
+    <script type="text/javascript" src="js/jquery.itextsuggest.js"></script>
+    <script type="text/javascript" src="js/jquery.itextclear.js"></script>
+    <script type="text/javascript" src="js/jquery.hashchange.min.js"></script>
+    <script type="text/javascript" src="js/jquery.drilldownmenu.js"></script>
+    <script type="text/javascript" src="js/jquery.popover.js"></script>
+    
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="js/PIE.js"></script>
+    <script type="text/javascript" src="js/ie.js"></script>
+    <![endif]-->
+
+    <script type="text/javascript" src="js/global.js"></script>
+    <!-- MAIN JAVASCRIPTS END -->
+
+    <!-- LOADING SCRIPT -->
+    <script>
+    $(window).load(function(){
+        $("#loading").fadeOut(function(){
+            $(this).remove();
+            $('body').removeAttr('style');
+        });
+    });
+    </script>
+    <!-- LOADING SCRIPT -->
+    
+    <!-- POPOVERS SETUP-->
+    <div id="activity-popover" class="popover">
+        <header>
+            Activity
+        </header>
+        <section>
+            <div class="content">
+                <nav>
+                    <ul>
+                        <li class="new"><a><span class="avatar"></span>John Doe created a new project</a></li>
+                        <li class="read"><a><span class="avatar"></span>John Doe created a new project</a></li>
+                        <li class="read"><a><span class="avatar"></span>Jane Doe updated a project</a></li>
+                        <li class="read"><a><span class="avatar"></span>John Doe uploaded a document</a></li>
+                        <li class="read"><a><span class="avatar"></span>John Doe deleted a project</a></li>
+                        <li class="read"><a><span class="avatar"></span>John Doe marked a project as done</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </section>
+    </div>
+    <div id="notifications-popover" class="popover">
+        <header>
+            Notifications
+        </header>
+        <section>
+            <div class="content">
+                <nav>
+                    <ul>
+                        <li class="new"><a><span class="avatar"></span>John Doe created a new project</a></li>
+                        <li class="new"><a><span class="avatar"></span>John Doe created a new project</a></li>
+                        <li class="new"><a><span class="avatar"></span>Jane Doe updated a project</a></li>
+                        <li class="read"><a><span class="avatar"></span>John Doe uploaded a document</a></li>
+                        <li class="read"><a><span class="avatar"></span>John Doe deleted a project</a></li>
+                        <li class="read"><a><span class="avatar"></span>John Doe marked a project as done</a></li>
+                        <li><a href="#notifications.html" title="Notifications">See notification styles and growl like messages...</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </section>
+    </div>
+    <div id="settings-popover" class="popover">
+        <header>
+            Settings
+        </header>
+        <section>
+            <div class="content">
+                <nav>
+                    <ul>
+                        <li><a>Project Settings</a></li>
+                        <li><a>Account Settings</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </section>
+    </div>
+    <script>
+        $(document).ready(function() {
+            $('#activity-button').popover('#activity-popover', {preventRight: true});
+            $('#notifications-button').popover('#notifications-popover', {preventRight: true});
+            $('#settings-button').popover('#settings-popover', {preventRight: true});
+
+            /**
+             * setup search
+             */
+            function googleSearch(q){
+                $('#searchform .searchbox a').fadeOut()
+                $.ajax({
+                    url: 'php/google_search_results.php',
+                    data: 'q='+encodeURIComponent(q),
+                    cache: false,
+                    success: function(response){
+                        $('.search_results').html(response);
+                    }
+                });
+            }
+
+            // Set iTextSuggest
+            $('#searchform .searchbox').length && $('#searchform .searchbox').find('input[type=text]').iTextClear().iTextSuggest({
+                url: 'php/google_suggestions_results.php',
+                onKeydown: function(query){
+                    googleSearch(query);
+                },
+                onChange: function(query){
+                    googleSearch(query);
+                },
+                onSelect: function(query){
+                    googleSearch(query);
+                },
+                onSubmit: function(query){
+                    googleSearch(query);
+                },
+                onEmpty: function(){
+                    $('.search_results').html('');
+                }
+            }).focus(function(){
+                $('#wrapper > section > aside > nav > ul').fadeOut(function(){
+                    $('#searchform .search_results').show();
+                });
+                $(this).parents('#searchform .searchbox').animate({marginRight: 70}).next().fadeIn();
+            });
+            
+            $('#searchform .searchcontainer').find('input[type=button]').click(function(){
+                $('#searchform .search_results').hide();
+                $('#searchform .searchbox').find('input[type=text]').val('');
+                $('#searchform .search_results').html('');
+                $('#wrapper > section > aside > nav > ul').fadeIn();
+                $('.searchbox', $(this).parent()).animate({marginRight: 0}).next().fadeOut();
+            });
+        });
+    </script>
+    <!-- POPOVERS SETUP END-->
+
+</body>
+
+<!-- Mirrored from themes.vivantdesigns.com/vpad/ by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Jan 2015 18:51:53 GMT -->
+</html>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.0">
+
+	<persistence-unit name="pgajpa" transaction-type="RESOURCE_LOCAL">
+		<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+		<class>com.pga.eo.AccountEO</class>
+		<class>com.pga.eo.BedEO</class>
+		<class>com.pga.eo.LogEO</class>
+		<class>com.pga.eo.OccupantBedEO</class>
+		<class>com.pga.eo.OccupantEO</class>
+		<class>com.pga.eo.OccupantHistoryEO</class>
+		<class>com.pga.eo.UserEO</class>
+		<class>com.pga.eo.PgEO</class>
+		<class>com.pga.eo.PriceEO</class>
+		<class>com.pga.eo.BedPriceHistoryEO</class>
+		<class>com.pga.eo.RoomEO</class>
+		<class>com.pga.eo.RuleEO</class>
+		<class>com.pga.eo.RegisteredUserEO</class>
+
+		<properties>
+			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost/PGA" />
+			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
+			<property name="javax.persistence.jdbc.password" value="root" />
+			<property name="javax.persistence.jdbc.user" value="root" />
+		</properties>
+
+
+
+	</persistence-unit>
+</persistence>

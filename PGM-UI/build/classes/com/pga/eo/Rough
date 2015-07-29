@@ -1,0 +1,17 @@
+int size = list.size();
+        for(int i=0;i<size;i++)
+        {
+            System.out.println(list.get(i));
+        }
+        ////
+        List dataListDays = new ArrayList();  
+try {  
+            while (rs.next()) {  
+                dataListDays.add(rs.getString(1)); // This is to get day_name  
+                dataListDays.add(rs.getInt(2)); // This is to get temperature value  
+            }  
+            rsZip.close();  
+            session.setAttribute("dataListDays", dataListDays);  
+        } catch (SQLException e) {  
+            e.printStackTrace();  
+        }  

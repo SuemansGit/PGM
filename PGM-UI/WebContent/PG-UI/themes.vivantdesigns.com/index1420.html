@@ -1,0 +1,72 @@
+<!DOCTYPE html> 
+<html lang="en"> 
+<head> 
+<meta http-equiv="content-type" content="text/html; charset=utf-8" /> 
+<title>PGM</title> 
+
+<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="css/style.css" /> 
+
+    <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-10391222-1']);
+    _gaq.push(['_trackPageview']);
+    (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ga);
+    })();
+    </script>
+
+<!--[if lt IE 9]>
+<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+ 
+</head>
+<body> 
+    <div id="switch">
+        <div class="container">
+            <div class="row">
+                <div class="span2">
+                    <div id="logo"><a href="http://www.vivantdesigns.com/">VivantDesigns.com</a></div><!--logo-->
+                </div><!--grid_3--> 
+                
+                <div class="span10"> 
+                    <!--theme_dropdown--> 
+                    <a id="close" class="pull-right" href="vpad/index.html" title="Remove Frame" data-placement="below" rel="twipsy"></a> 
+                    <a id="purchase_download" class="purchase pull-right" href="http://themeforest.net/item/vpad-html5css3-app-framework/885302?ref=vivantdesigns" title="Purchase" data-placement="below" rel="twipsy"></a>
+                </div>
+                <div class="clear"></div> 
+            </div>
+        </div>
+    </div><!--switch-->    
+    <script type="text/javascript" src="../ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script type="text/javascript">
+      //function to fix height of iframe!
+      var calcHeight = function() {
+        var headerDimensions = $('#switch').height();
+        $('#preview-frame').height($(window).height() - headerDimensions);
+      }
+      
+      $(document).ready(function() {
+        calcHeight();
+        $('#switch a.close').mouseover(function() {
+          $('#switch a.close').addClass('activated');
+        }).mouseout(function() {
+          $('#switch a.close').removeClass('activated');
+        });
+      });
+      
+      $(window).resize(function() {
+        calcHeight();
+      }).load(function() {
+        calcHeight();
+      });
+    </script>
+    <script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script> 
+    <script type="text/javascript" src="js/application.js"></script> 
+	<iframe id="preview-frame" src="vpad/index.html" noresize="noresize" frameborder="0" ></iframe> 
+</body> 
+
+<!-- Mirrored from themes.vivantdesigns.com/?theme=xtremeadmin by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 18 Jan 2015 18:51:23 GMT -->
+</html>
